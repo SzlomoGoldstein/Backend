@@ -1,4 +1,13 @@
 using Serilog;
+using DotNetMentor.PageMonitor.Application.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DotNetMentor.PageMonitor.Infrastracture.Persistance;
 
 namespace DotNetMentor.PageMonitor.WebApi
 {
@@ -24,7 +33,7 @@ namespace DotNetMentor.PageMonitor.WebApi
                 .Enrich.FromLogContext());
 
             // Add services to the container.
-
+            builder.Services.AddSqlDatabase(builder.Configuration.GetConnectionString("MainDbSql"));
             builder.Services.AddControllers();
 
             var app = builder.Build();
