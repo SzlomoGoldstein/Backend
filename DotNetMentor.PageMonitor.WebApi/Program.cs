@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using DotNetMentor.PageMonitor.Infrastracture.Persistance;
 using DotNetMentor.PageMonitor.Application.Logic.Abstractions;
 using DotNetMentor.PageMonitor.WebApi.Middlewares;
+using DotNetMentor.PageMonitor.Application;
 
 namespace DotNetMentor.PageMonitor.WebApi
 {
@@ -47,6 +48,8 @@ namespace DotNetMentor.PageMonitor.WebApi
             {
                 c.RegisterServicesFromAssemblyContaining(typeof(BaseCommandHandler));
             });
+
+            builder.Services.AddApplicationServices();
 
             var app = builder.Build();
 

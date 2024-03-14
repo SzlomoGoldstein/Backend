@@ -11,7 +11,7 @@ namespace DotNetMentor.PageMonitor.Domain.Entities
     {
         public int AccountId { get; set; }
         public Account Account { get; set; } = default!;
-        public string UserId { get; set; }
+        public int UserId { get; set; }
         public User User { get; set; } = default!;
     }
 }
