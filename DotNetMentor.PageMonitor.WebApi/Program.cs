@@ -11,6 +11,9 @@ using DotNetMentor.PageMonitor.Infrastracture.Persistance;
 using DotNetMentor.PageMonitor.Application.Logic.Abstractions;
 using DotNetMentor.PageMonitor.WebApi.Middlewares;
 using DotNetMentor.PageMonitor.Application;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using DotNetMentor.PageMonitor.Infrastracture.Auth;
 
 namespace DotNetMentor.PageMonitor.WebApi
 {
@@ -41,8 +44,10 @@ namespace DotNetMentor.PageMonitor.WebApi
                 .Enrich.FromLogContext());
 
             // Add services to the container.
+            builder.Services.AddDatabaseCache();
             builder.Services.AddSqlDatabase(builder.Configuration.GetConnectionString("MainDbSql"));
             builder.Services.AddControllers();
+            builder.Services.AddJwtAuth(builder.Configuration);
 
             builder.Services.AddMediatR(c =>
             {

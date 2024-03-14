@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EFCoreSecondLevelCacheInterceptor;
 
 namespace DotNetMentor.PageMonitor.Application.Services
 {
@@ -30,6 +31,7 @@ namespace DotNetMentor.PageMonitor.Application.Services
                     .Where(au => au.UserId == userId.Value)
                     .OrderBy(au => au.Id)
                     .Select(au => (int?) au.AccountId)
+                    .Cacheable()
                     .FirstOrDefaultAsync();
             }
 
@@ -44,7 +46,7 @@ namespace DotNetMentor.PageMonitor.Application.Services
                 throw new UnauthorizedAccessException();
             }
 
-            var account = await _applicationDbContext.Accounts.FirstOrDefaultAsync(a => a.Id == accountId.Value);
+            var account = await _applicationDbContext.Accounts.Cacheable().FirstOrDefaultAsync(a => a.Id == accountId.Value);
             if (account == null) 
             {
                 throw new ErrorException("AccountDoesNotExist");
