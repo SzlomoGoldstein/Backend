@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace DotNetMentor.PageMonitor.Application
 {
-    internal interface IAuthenticationDataProvider
+    public interface IAuthenticationDataProvider
     {
+        int? GetUserId();
     }
 }

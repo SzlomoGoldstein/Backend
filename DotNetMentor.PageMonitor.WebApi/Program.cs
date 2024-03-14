@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DotNetMentor.PageMonitor.Infrastracture.Persistance;
 using DotNetMentor.PageMonitor.Application.Logic.Abstractions;
+using DotNetMentor.PageMonitor.WebApi.Middlewares;
 
 namespace DotNetMentor.PageMonitor.WebApi
 {
@@ -48,6 +49,8 @@ namespace DotNetMentor.PageMonitor.WebApi
             });
 
             var app = builder.Build();
+
+            app.UseExceptionResultMiddleware();
 
             // Configure the HTTP request pipeline.
 
