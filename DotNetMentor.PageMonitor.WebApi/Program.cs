@@ -25,6 +25,11 @@ namespace DotNetMentor.PageMonitor.WebApi
 
             var builder = WebApplication.CreateBuilder(args);
 
+            if (builder.Environment.IsDevelopment()) 
+            {
+                builder.Configuration.AddJsonFile("appsetting.Development.local.json");
+            }
+
             builder.Host.UseSerilog((context, services, configuration) => configuration
                 .Enrich.WithProperty("Application", APP_NAME)
                 .Enrich.WithProperty("MachineName", Environment.MachineName)
