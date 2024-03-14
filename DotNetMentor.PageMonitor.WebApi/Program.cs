@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DotNetMentor.PageMonitor.Infrastracture.Persistance;
+using DotNetMentor.PageMonitor.Application.Logic.Abstractions;
 
 namespace DotNetMentor.PageMonitor.WebApi
 {
@@ -40,6 +41,11 @@ namespace DotNetMentor.PageMonitor.WebApi
             // Add services to the container.
             builder.Services.AddSqlDatabase(builder.Configuration.GetConnectionString("MainDbSql"));
             builder.Services.AddControllers();
+
+            builder.Services.AddMediatR(c =>
+            {
+                c.RegisterServicesFromAssemblyContaining(typeof(BaseCommandHandler));
+            });
 
             var app = builder.Build();
 
