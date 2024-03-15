@@ -2,6 +2,7 @@
 using DotNetMentor.PageMonitor.WebApi.Application.Response;
 using System.Net;
 using System;
+using DotNetMentor.PageMonitor.Application.Exceptions;
 
 
 namespace DotNetMentor.PageMonitor.WebApi.Middlewares
@@ -25,6 +26,11 @@ namespace DotNetMentor.PageMonitor.WebApi.Middlewares
             {
                 httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 await httpContext.Response.WriteAsJsonAsync(new ErrorResponse { Error = e.Error });
+            }
+            catch (ValidationException ve)
+            {
+                httpContext.Response.StatusCode = (int)HttpStatusCode.UnprocessableEntity;
+                await httpContext.Response.WriteAsJsonAsync(new ValidationErrorResponse(ve));
             }
             catch (UnauthorizedException ue) 
             {

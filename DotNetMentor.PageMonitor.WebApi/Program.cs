@@ -34,7 +34,7 @@ namespace DotNetMentor.PageMonitor.WebApi
 
             if (builder.Environment.IsDevelopment()) 
             {
-                builder.Configuration.AddJsonFile("appsetting.Development.local.json");
+                builder.Configuration.AddJsonFile("appsettings.Development.local.json");
             }
 
             builder.Host.UseSerilog((context, services, configuration) => configuration
@@ -59,8 +59,28 @@ namespace DotNetMentor.PageMonitor.WebApi
             });
 
             builder.Services.AddApplicationServices();
+            builder.Services.AddValidators();
+
+            builder.Services.AddSwaggerGen(o =>
+            {
+                o.CustomSchemaIds(x =>
+                {
+                    var name = x.FullName;
+                    if (name != null)
+                    {
+                        name = name.Replace("+", "_"); //swagger bug fix
+                    }
+                    return name;
+                });
+            });
 
             var app = builder.Build();
+
+            if (app.Environment.IsDevelopment()) 
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
 
             app.UseExceptionResultMiddleware();
 

@@ -2,6 +2,7 @@
 using DotNetMentor.PageMonitor.Application.Interfaces;
 using DotNetMentor.PageMonitor.Application.Logic.Abstractions;
 using DotNetMentor.PageMonitor.Domain.Entities;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -79,6 +80,19 @@ namespace DotNetMentor.PageMonitor.Application.Logic.User
                 };
             }
 
+
+            public class Validator : AbstractValidator<Request> 
+            {
+                public Validator() 
+                {
+                    RuleFor(x => x.Email).NotEmpty();
+                    RuleFor(x => x.Email).EmailAddress();
+                    RuleFor(x => x.Email).MaximumLength(100);
+
+                    RuleFor(x => x.Password).NotEmpty();
+                    RuleFor(x => x.Password).MaximumLength(50);
+                }
+            }
         }
     }
 }
