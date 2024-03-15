@@ -51,6 +51,7 @@ namespace DotNetMentor.PageMonitor.WebApi
             builder.Services.AddControllers();
             builder.Services.AddJwtAuth(builder.Configuration);
             builder.Services.AddJwtAuthenticationDataProvider(builder.Configuration);
+            builder.Services.AddPasswordManager();
 
             builder.Services.AddMediatR(c =>
             {
