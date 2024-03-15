@@ -14,6 +14,7 @@ using DotNetMentor.PageMonitor.Application;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using DotNetMentor.PageMonitor.Infrastracture.Auth;
+using DotNetMentor.PageMonitor.WebApi.Application.Auth;
 
 namespace DotNetMentor.PageMonitor.WebApi
 {
@@ -49,6 +50,7 @@ namespace DotNetMentor.PageMonitor.WebApi
             builder.Services.AddSqlDatabase(builder.Configuration.GetConnectionString("MainDbSql"));
             builder.Services.AddControllers();
             builder.Services.AddJwtAuth(builder.Configuration);
+            builder.Services.AddJwtAuthenticationDataProvider(builder.Configuration);
 
             builder.Services.AddMediatR(c =>
             {
