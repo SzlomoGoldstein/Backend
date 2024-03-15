@@ -44,6 +44,7 @@ namespace DotNetMentor.PageMonitor.WebApi
                 .Enrich.FromLogContext());
 
             // Add services to the container.
+            builder.Services.AddHttpContextAccessor();
             builder.Services.AddDatabaseCache();
             builder.Services.AddSqlDatabase(builder.Configuration.GetConnectionString("MainDbSql"));
             builder.Services.AddControllers();
