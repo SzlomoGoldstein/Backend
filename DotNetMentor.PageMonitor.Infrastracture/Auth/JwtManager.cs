@@ -27,7 +27,7 @@ namespace DotNetMentor.PageMonitor.Infrastracture.Auth
             {
                 throw new ArgumentException("JWT options secret is empty");
             }
-            return new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_jwtOptions.Secret));
+            return new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.Secret));
         }
 
         private string GenerateTokenWithClaims(IEnumerable<Claim> claims) 
