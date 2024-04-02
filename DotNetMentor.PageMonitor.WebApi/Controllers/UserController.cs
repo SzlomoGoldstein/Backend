@@ -5,6 +5,7 @@ using DotNetMentor.PageMonitor.Infrastracture.Auth;
 using DotNetMentor.PageMonitor.WebApi.Application.Auth;
 using DotNetMentor.PageMonitor.WebApi.Application.Response;
 using MediatR;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -17,9 +18,11 @@ namespace DotNetMentor.PageMonitor.WebApi.Controllers
     {
         private readonly CookieSettings? _cookieSettings;
         private readonly JwtManager _jwtManager;
+        private readonly IAntiforgery _antiforgery;
         public UserController(ILogger<UserController> logger, 
                 IOptions<CookieSettings> cookieSettings,
             JwtManager jwtManager,
+            IAntiforgery antiforgery,
             IMediator mediator) : base(logger, mediator)
         {
             _cookieSettings = cookieSettings != null ? cookieSettings.Value : null;
@@ -27,7 +30,7 @@ namespace DotNetMentor.PageMonitor.WebApi.Controllers
         }
 
         [HttpPost]
-
+        [IgnoreAntiforgeryToken]
         public async Task<ActionResult> CreatedUserWithAccount([FromBody] CreateUserWithAccountCommand.Request model) 
         {
             var createAccountResult = await _mediator.Send(model);
@@ -59,6 +62,13 @@ namespace DotNetMentor.PageMonitor.WebApi.Controllers
         {
             var data = await _mediator.Send(new LoggedInUserQuery.Request() { });
             return Ok(data);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> AntiForgeryToken() 
+        {
+            var tokens = _antiforgery.GetAndStoreTokens(HttpContext);
+            return Ok(tokens.RequestToken);
         }
 
         private void SetTokenCookie(string token) 

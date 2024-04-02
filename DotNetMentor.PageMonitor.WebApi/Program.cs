@@ -15,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using DotNetMentor.PageMonitor.Infrastracture.Auth;
 using DotNetMentor.PageMonitor.WebApi.Application.Auth;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DotNetMentor.PageMonitor.WebApi
 {
@@ -48,7 +49,15 @@ namespace DotNetMentor.PageMonitor.WebApi
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddDatabaseCache();
             builder.Services.AddSqlDatabase(builder.Configuration.GetConnectionString("MainDbSql"));
-            builder.Services.AddControllers();
+
+            builder.Services.AddControllersWithViews(options => 
+            {
+                if (!builder.Environment.IsDevelopment()) 
+                {
+                    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                }            
+            });
+
             builder.Services.AddJwtAuth(builder.Configuration);
             builder.Services.AddJwtAuthenticationDataProvider(builder.Configuration);
             builder.Services.AddPasswordManager();
@@ -72,6 +81,11 @@ namespace DotNetMentor.PageMonitor.WebApi
                     }
                     return name;
                 });
+            });
+
+            builder.Services.AddAntiforgery(o =>
+            {
+                o.HeaderName = "X-XSRF-TOKEN";
             });
 
             builder.Services.AddCors();
