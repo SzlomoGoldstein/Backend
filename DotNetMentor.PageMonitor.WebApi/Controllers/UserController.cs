@@ -1,4 +1,5 @@
 ﻿using Azure.Core;
+using DotNetMentor.PageMonitor.Application.Logic.Account;
 using DotNetMentor.PageMonitor.Application.Logic.User;
 using DotNetMentor.PageMonitor.Infrastracture.Auth;
 using DotNetMentor.PageMonitor.WebApi.Application.Auth;
