@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using DotNetMentor.PageMonitor.Infrastracture.Auth;
 using DotNetMentor.PageMonitor.WebApi.Application.Auth;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json.Serialization;
 
 namespace DotNetMentor.PageMonitor.WebApi
 {
@@ -56,7 +57,8 @@ namespace DotNetMentor.PageMonitor.WebApi
                 {
                     options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                 }            
-            });
+            }).AddJsonOptions(options => 
+            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
             builder.Services.AddJwtAuth(builder.Configuration);
             builder.Services.AddJwtAuthenticationDataProvider(builder.Configuration);
