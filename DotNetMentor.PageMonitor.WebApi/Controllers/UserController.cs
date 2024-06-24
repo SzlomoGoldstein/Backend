@@ -95,6 +95,8 @@ namespace DotNetMentor.PageMonitor.WebApi.Controllers
             Response.Cookies.Append(CookieSettings.CookieName, token, cookieOption);
         }
 
+
+
         private void DeleteTokenCookie() 
         {
             Response.Cookies.Delete(CookieSettings.CookieName, new CookieOptions() 
